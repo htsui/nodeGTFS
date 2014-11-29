@@ -1,0 +1,13 @@
+Dependencies:
+
+node.js
+
+To run:
+
+clone the project
+
+`npm install`
+
+`node index.js`
+
+
