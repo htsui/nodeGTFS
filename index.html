@@ -1,0 +1,27 @@
+<p class = "latlon"></p>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+  var socket = io();
+  var routes = [2843,2913,2838,2908];//b-line, 05 delaware
+  var vehicles = [];
+
+  for (var i = 0; i < routes.length; i++){
+  	socket.emit('add_route', routes[i]);
+  }
+  socket.on('endMessage', function(){
+	$(".latlon").html("");
+  	for (var vehicle in vehicles){
+  		//console.log(vehicles[vehicle]);
+  		$(".latlon").html("id: " + vehicle + "Lat: "+ vehicles[vehicle][0] + "  Lon:" + vehicles[vehicle][1] + "<br>" + $(".latlon").html());
+  	}
+  });
+  socket.on('putVehicle', function(vehicle_id, lat, lon){
+
+  	var vehicle_data = [lat, lon];
+  	vehicles[vehicle_id] = vehicle_data;
+
+
+
+  });
+</script>
