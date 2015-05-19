@@ -10,4 +10,27 @@ clone the project
 
 `node index.js`
 
+The majority of the program logic is in index.js
 
+Currently, the gtfs-realtime specification only allows clients to download the data of the entire fleet of vehicles at once.
+
+The main use for this application is to support mobile apps, where users may be wary of bandwidth consumption.  
+With some gtfs-realtime vehicle position files having sizes of >50kb, the bandwidth requirements can stack up very quickly when constantly updating vehicle positions.
+This application will allow clients to request only the data they need, moving the bandwidth cost to a middleman server, rather than the client.
+
+Usage: Change feedUrl to the relevant feed.
+To request data:
+http://yourhost.whatever:3000/:search_by/:query/:ret_vals
+
+:search_by is the variable which you want to search through
+    the tree structure is navigated using "."
+:query is what the variable must equal in order for the vehicle to be considered
+:ret_vals are the variables which you want returned
+    ret_vals can be seperated by "," and the tree structure can be navigated using "."
+    if no ret_vals are defined, it will default to longitude, latitude, and bearing.
+
+eg- http://yourhost.whatever:3000/trip.route_id/32/position.longitude,position.latitude,stop_id
+This would return the longitude, latitude, and stop_id of any vehicle currently on route_id 32.
+
+For gtfs-realtime specifications, go to https://developers.google.com/transit/gtfs-realtime/
+In order to view the tree structure easily in json format, uncomment the "out=entities" line in processQuery().
